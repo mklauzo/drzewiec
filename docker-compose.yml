@@ -1,7 +1,7 @@
 version: "3"
 services:
   web:
-    image: mklauzo/drzewiec_www:ver1
+    image: mklauzo/drzewiec_www:ver2
     deploy:
       replicas: 1
       resources:
