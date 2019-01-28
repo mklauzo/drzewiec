@@ -24,6 +24,7 @@ build:
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
   except:
     - master
+
 after_script:
     - docker run -d -p 8085:80 "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
   variables:
