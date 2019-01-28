@@ -23,7 +23,7 @@ build:
     - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
 #   - docker run -d -p 8085:80 "$CI_REGISTRY_IMAGE"
-    - ./docker_cleaner.sh
+    script: "./docker_cleaner.sh"
   except:
     - master
 
