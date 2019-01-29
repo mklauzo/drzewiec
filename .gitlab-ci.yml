@@ -9,7 +9,7 @@ image: docker:latest
 services:
   - docker:dind
 
-stage: cleaning
+  stage: cleaning
   script:
      - echo 'hey'
   
