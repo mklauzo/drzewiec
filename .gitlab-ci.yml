@@ -2,15 +2,14 @@
 # Official docker image.
 stages:
  - cleaning
- - build-master
- - build
+ 
  
 image: docker:latest
 
 services:
   - docker:dind
 
-cleaning:
+stage: cleaning
   script: echo 'hey'
   
 
