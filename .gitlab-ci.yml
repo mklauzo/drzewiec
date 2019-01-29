@@ -2,7 +2,6 @@
 # Official docker image.
 
  
- 
 image: docker:latest
 
  services:
