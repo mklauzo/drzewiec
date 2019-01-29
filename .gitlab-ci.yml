@@ -7,8 +7,8 @@ image: docker:latest
 services:
  - docker:dind
 
-cleaning:
-  script: echo 'hey'
+#cleaning:
+#  script: echo 'hey'
   
 
 before_script:
