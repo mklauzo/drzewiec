@@ -10,7 +10,8 @@ services:
   - docker:dind
 
 stage: cleaning
-  script: echo 'hey'
+  script: 
+  - echo 'hey'
   
 
 before_script:
