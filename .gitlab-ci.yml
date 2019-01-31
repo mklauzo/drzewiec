@@ -17,7 +17,7 @@ before_script:
 #  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN gitlab.example.com:5555
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   - ./skrypt.sh
-  - ./docker_cleaner.sh
+#  - ./docker_cleaner.sh
 #bad  - ssh -p 8104 mac@37.247.209.178 docker container stop $(docker container ls -a -q)
 #bad  - ssh -p 8104 mac@37.247.209.178 docker container rm $(docker container la -a -q)
   
