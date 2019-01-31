@@ -28,7 +28,7 @@ build:
 test:
   stage: test
   script:
-#    - docker pull $TEST_IMAGE
+    - docker pull $TEST_IMAGE
 #    - docker run $TEST_IMAGE npm test
 
 release:
