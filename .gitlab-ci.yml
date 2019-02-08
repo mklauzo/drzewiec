@@ -9,7 +9,7 @@ stages:
 
 variables:
   TEST_IMAGE : "$CI_REGISTRY_IMAGE"
-  RELEASE_IMAGE : "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" 
+  RELEASE_IMAGE : "$CI_REGISTRY_IMAGE:latest" 
 #  TEST_IMAGE: gitlab.example.com:5555/sammy/hello_hapi:$CI_COMMIT_REF_NAME
 #  RELEASE_IMAGE: gitlab.example.com:5555/sammy/hello_hapi:latest
 
@@ -17,7 +17,6 @@ before_script:
 #  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN gitlab.example.com:5555
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   - ./skrypt.sh
-#  - ./docker_cleaner.sh
 #bad  - ssh -p 8104 mac@37.247.209.178 docker container stop $(docker container ls -a -q)
 #bad  - ssh -p 8104 mac@37.247.209.178 docker container rm $(docker container la -a -q)
   
@@ -25,21 +24,34 @@ build:
   stage: build
   script:
 #    - docker build --pull -t $TEST_IMAGE .
-    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
 #    - docker push $TEST_IMAGE    
-    - docker push "$CI_REGISTRY_IMAGE"
+     - docker push "$CI_REGISTRY_IMAGE"
+  tags:
+     - shell_runner
+
 
 test:
   stage: test
   script:
-    - docker pull $TEST_IMAGE
-#    - docker run $TEST_IMAGE npm test
-
+#     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+     - docker pull $TEST_IMAGE
+#     - docker container stop $(docker ls -a -q) || true && docker container rm $(docker ps -a -q) || true
+     - docker run --name=drzewiec -p 8085:80 -itd $TEST_IMAGE 
+  tags:
+     - shell_runner
+    
 release:
   stage: release
   script:
-    - docker pull $TEST_IMAGE
-    - docker tag $TEST_IMAGE $RELEASE_IMAGE
-    - docker push $RELEASE_IMAGE
-  only:
-    - master
+     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+     - docker pull $TEST_IMAGE
+     - docker push $RELEASE_IMAGE
+#     - docker container stop $(docker ls -a -q) || true && docker container rm $(docker ps -a -q) || true
+     - ./docker_cleaner.sh
+#     - docker run -d -p 8085:80 registry.gitlab.com/maciej.klauzo/www_drzewiec:latest
+#     - docker run -d -p 8085:80 $RELEASE_IMAGE
+  tags:
+     - shell_runner
+#  only:
+#     - master
